@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sadseven.bcdividend.mapper.DividendMapper">
+  <resultMap id="BaseResultMap" type="com.sadseven.bcdividend.model.Dividend">
+    <id column="_id" jdbcType="INTEGER" property="id" />
+    <result column="crtime" jdbcType="DECIMAL" property="crtime" />
+    <result column="chtime" jdbcType="DECIMAL" property="chtime" />
+    <result column="time" jdbcType="DECIMAL" property="time" />
+    <result column="turnover" jdbcType="DOUBLE" property="turnover" />
+    <result column="singleCost" jdbcType="DOUBLE" property="singlecost" />
+    <result column="doubleCost" jdbcType="DOUBLE" property="doublecost" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    _id, crtime, chtime, time, turnover, singleCost, doubleCost
+  </sql>
+  <select id="selectByExample" parameterType="com.sadseven.bcdividend.model.DividendExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bc_dividend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bc_dividend
+    where _id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bc_dividend
+    where _id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sadseven.bcdividend.model.DividendExample">
+    delete from bc_dividend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sadseven.bcdividend.model.Dividend">
+    insert into bc_dividend ( 
+      time, turnover, singleCost, 
+      doubleCost)
+    values ( 
+      #{time,jdbcType=DECIMAL}, #{turnover,jdbcType=DOUBLE}, #{singlecost,jdbcType=DOUBLE}, 
+      #{doublecost,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sadseven.bcdividend.model.Dividend">
+    insert into bc_dividend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        _id,
+      </if>
+      <if test="crtime != null">
+        crtime,
+      </if>
+      <if test="chtime != null">
+        chtime,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="turnover != null">
+        turnover,
+      </if>
+      <if test="singlecost != null">
+        singleCost,
+      </if>
+      <if test="doublecost != null">
+        doubleCost,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="crtime != null">
+        #{crtime,jdbcType=DECIMAL},
+      </if>
+      <if test="chtime != null">
+        #{chtime,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=DECIMAL},
+      </if>
+      <if test="turnover != null">
+        #{turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="singlecost != null">
+        #{singlecost,jdbcType=DOUBLE},
+      </if>
+      <if test="doublecost != null">
+        #{doublecost,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sadseven.bcdividend.model.DividendExample" resultType="java.lang.Long">
+    select count(*) from bc_dividend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bc_dividend
+    <set>
+      <if test="record.id != null">
+        _id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.crtime != null">
+        crtime = #{record.crtime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.chtime != null">
+        chtime = #{record.chtime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=DECIMAL},
+      </if>
+      <if test="record.turnover != null">
+        turnover = #{record.turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="record.singlecost != null">
+        singleCost = #{record.singlecost,jdbcType=DOUBLE},
+      </if>
+      <if test="record.doublecost != null">
+        doubleCost = #{record.doublecost,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bc_dividend
+    set _id = #{record.id,jdbcType=INTEGER},
+      crtime = #{record.crtime,jdbcType=DECIMAL},
+      chtime = #{record.chtime,jdbcType=DECIMAL},
+      time = #{record.time,jdbcType=DECIMAL},
+      turnover = #{record.turnover,jdbcType=DOUBLE},
+      singleCost = #{record.singlecost,jdbcType=DOUBLE},
+      doubleCost = #{record.doublecost,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sadseven.bcdividend.model.Dividend">
+    update bc_dividend
+    <set>
+      <if test="crtime != null">
+        crtime = #{crtime,jdbcType=DECIMAL},
+      </if>
+      <if test="chtime != null">
+        chtime = #{chtime,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=DECIMAL},
+      </if>
+      <if test="turnover != null">
+        turnover = #{turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="singlecost != null">
+        singleCost = #{singlecost,jdbcType=DOUBLE},
+      </if>
+      <if test="doublecost != null">
+        doubleCost = #{doublecost,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where _id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sadseven.bcdividend.model.Dividend">
+    update bc_dividend
+    set crtime = #{crtime,jdbcType=DECIMAL},
+      chtime = #{chtime,jdbcType=DECIMAL},
+      time = #{time,jdbcType=DECIMAL},
+      turnover = #{turnover,jdbcType=DOUBLE},
+      singleCost = #{singlecost,jdbcType=DOUBLE},
+      doubleCost = #{doublecost,jdbcType=DOUBLE}
+    where _id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
